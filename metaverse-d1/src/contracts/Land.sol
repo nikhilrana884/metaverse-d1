@@ -19,5 +19,38 @@ contract Land is ERC721 {
 
     Building[] public buildings;
 
+
+
+    function transferFrom(
+        address from,
+        address to,
+        uint256 tokenId
+    ) public override {
+        require(
+            _isApprovedOrOwner(_msgSender(), tokenId),
+            "ERC721: transfer caller is not owner."
+        );
+
+        buildings[tokenId - 1].owner = to;
+
+        _transfer(from, to, tokenId);
+    }
+
+    function safeTransferFrom(
+        address from,
+        address to,
+        uint256 tokenId,
+        bytes memory _data
+    ) public override {
+        require(
+            _isApprovedOrOwner(_msgSender(), tokenId),
+            "ERC721: transfer caller is not owner."
+        );
+
+        buildings[tokenId - 1].owner = to;
+
+        _safeTransfer(from, to, tokenId, _data);
+    }
+
  
 }
